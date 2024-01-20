@@ -1,10 +1,11 @@
-# Django Starter
+# Prompt Evaluator
 
-Starter built with [Django App Generator](https://app-generator.dev/django/) - Actively supported by [AppSeed](https://appseed.us/) via `Email` and `Discord`. Here are some useful links:
+Automate the process of generating responses to prompts and log into a postgres database.  
 
-- 👉 [Read the Docs](https://docs.app-generator.dev/) for more input ragarding the service 
-- 👉 Deploy the product on [AWS](https://docs.app-generator.dev/deployment/django-aws), [Azure](https://docs.app-generator.dev/deployment/django-azure) or [DigitalOcean](https://docs.app-generator.dev/deployment/django-digitalocean) via **DeployPRO** Service 
-- 👉 [Get Support](https://appseed.us/support/) (eMail & Discord) - provided by `AppSeed`
+- 👉 Enter one or more questions.  Each subsequent question leverages the conversation history so you can chain questions together.
+- 👉 Select one or more models to run the questions through
+- 👉 Specify a base_url to retrieve list of models (configured to use litellm and ollama as a openai proxy server and inference engine)
+- 👉 Log results to an external postgres db 
 
 <br />
 
@@ -12,8 +13,7 @@ Starter built with [Django App Generator](https://app-generator.dev/django/) - A
 
 - ✅ `Up-to-date Dependencies`
 - ✅ Modern UI 
-- ✅ API Generator (optional)
-- 🚀 [Deploy-Ready on AWS, DO, and Azure](https://deploypro.dev/) via `DeployPRO` service (read the [DOCS](https://docs.app-generator.dev/deployment/intro))
+- ✅ 
 
 <br />
 
