@@ -28,5 +28,4 @@ class UserProfile(models.Model):
         verbose_name_plural = _("UserProfile")
 
 #__MODELS__
-
 #__MODELS__END

@@ -1,0 +1,47 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block content %}
+
+    <div class="container-fluid py-4">
+
+      <div class="row">
+      
+        <div class="col-md-4">
+          <div class="card">
+<!--            <img class="card-img-top" src="{% static 'img/neuralami/altlogos/1.png' %}" alt="Card image" style="width:100px; height:100px;">
+-->            <div class="card-body">
+              <h4 class="card-title">Evaluate</h4>
+              <p class="card-text">Compare chained questions of multiple LLM models.</p>
+              <a href="#" class="btn btn-primary">Evaluate Now</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="card">
+<!--            <img class="card-img-top" src="{% static 'img/neuralami/altlogos/2a.png' %}" alt="Card image" style="width:100px; height:100px;">
+-->            <div class="card-body">
+              <h4 class="card-title">Settings</h4>
+              <p class="card-text">Adjust model parameters for Evaluate such as temperature</p>
+              <a href="#" class="btn btn-primary">Go to Settings</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="card">
+<!--            <img class="card-img-top" src="{% static 'card-image.jpg' %}" alt="Card image">
+-->            <div class="card-body">
+              <h4 class="card-title">History</h4>
+              <p class="card-text">View historical runs of Evaluate stored in the database</p>
+              <a href="#" class="btn btn-primary">View History</a>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+
+    </div>
+
+{% endblock content %}

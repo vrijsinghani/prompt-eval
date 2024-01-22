@@ -7,6 +7,7 @@ import os, random, string
 from pathlib import Path
 from dotenv import load_dotenv
 
+
 from helpers import *
 
 load_dotenv()  # LOAD variables from .env
@@ -24,11 +25,33 @@ if not SECRET_KEY:
 
 DEBUG = os.environ.get("DEBUG", True)
 
-APP_DOMAIN = os.getenv("APP_DOMAIN", "localhost")
+APP_DOMAIN = os.getenv("apps.neuralami.com", "localhost")
 
 # HOSTs List
-ALLOWED_HOSTS = ["127.0.0.1", "localhost", APP_DOMAIN, ".deploypro.dev"]
+#ALLOWED_HOSTS = ["127.0.0.1", "localhost", APP_DOMAIN, ".deploypro.dev","192.168.0.0/16","192.168.30.100"]
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '192.168.1.160',"apps.neuralami.com"]
+ALLOWED_CIDR_NETS = ['172.17.0.0/16','192.168.0.0/16']
 
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+]
+
+MIDDLEWARE = [
+    'allow_cidr.middleware.AllowCIDRMiddleware',
+    'django.middleware.security.SecurityMiddleware',
+    "whitenoise.middleware.WhiteNoiseMiddleware",
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+]
 # Add here your deployment HOSTS
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost:8000",
@@ -58,20 +81,20 @@ INSTALLED_APPS = [
 ]
 
 
-MIDDLEWARE = [
-    "django.middleware.security.SecurityMiddleware",
-    "whitenoise.middleware.WhiteNoiseMiddleware",
-    "django.contrib.sessions.middleware.SessionMiddleware",
-    "django.middleware.common.CommonMiddleware",
-    "django.middleware.csrf.CsrfViewMiddleware",
-    "django.contrib.auth.middleware.AuthenticationMiddleware",
-    "django.contrib.messages.middleware.MessageMiddleware",
-    "django.middleware.clickjacking.XFrameOptionsMiddleware",
-]
+# MIDDLEWARE = [
+#     "django.middleware.security.SecurityMiddleware",
+#     "whitenoise.middleware.WhiteNoiseMiddleware",
+#     "django.contrib.sessions.middleware.SessionMiddleware",
+#     "django.middleware.common.CommonMiddleware",
+#     "django.middleware.csrf.CsrfViewMiddleware",
+#     "django.contrib.auth.middleware.AuthenticationMiddleware",
+#     "django.contrib.messages.middleware.MessageMiddleware",
+#     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+# ]
 
 ROOT_URLCONF = "core.urls"
 
-HOME_TEMPLATES = os.path.join(BASE_DIR, "templates")
+HOME_TEMPLATES = os.path.join(BASE_DIR, "home/templates")
 
 TEMPLATES = [
     {
@@ -95,13 +118,12 @@ WSGI_APPLICATION = "core.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-DB_ENGINE = os.getenv("DB_ENGINE", None)
-DB_USERNAME = os.getenv("DB_USERNAME", None)
-DB_PASS = os.getenv("DB_PASS", None)
-DB_HOST = os.getenv("DB_HOST", None)
-DB_PORT = os.getenv("DB_PORT", None)
-DB_NAME = os.getenv("DB_NAME", None)
-
+DB_ENGINE = 'postgresql'
+DB_USERNAME = "postgres"
+DB_PASS = "kaajal1"
+DB_HOST = "192.168.1.250"
+DB_PORT = 5432
+DB_NAME = "prompteval"
 if DB_ENGINE and DB_NAME and DB_USERNAME:
     DATABASES = {
         "default": {
@@ -170,3 +192,5 @@ EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 # __API_GENERATOR__
 # __API_GENERATOR__END
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
