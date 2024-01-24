@@ -13,7 +13,7 @@
 -->            <div class="card-body">
               <h4 class="card-title">Evaluate</h4>
               <p class="card-text">Compare chained questions of multiple LLM models.</p>
-              <a href="#" class="btn btn-primary">Evaluate Now</a>
+              <a href="{% url 'evaluate' %}" class="btn btn-primary">Evaluate</a>
             </div>
           </div>
         </div>
@@ -35,13 +35,11 @@
 -->            <div class="card-body">
               <h4 class="card-title">History</h4>
               <p class="card-text">View historical runs of Evaluate stored in the database</p>
-              <a href="#" class="btn btn-primary">View History</a>
+              <a href="{% url 'history' %}" class="btn btn-primary">View History</a>
             </div>
           </div>
-        </div>
-        
+        </div>        
       </div>
-
     </div>
 
 {% endblock content %}

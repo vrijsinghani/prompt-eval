@@ -32,15 +32,6 @@ APP_DOMAIN = os.getenv("apps.neuralami.com", "localhost")
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '192.168.1.160',"apps.neuralami.com"]
 ALLOWED_CIDR_NETS = ['172.17.0.0/16','192.168.0.0/16']
 
-INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-]
-
 MIDDLEWARE = [
     'allow_cidr.middleware.AllowCIDRMiddleware',
     'django.middleware.security.SecurityMiddleware',
@@ -79,18 +70,6 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "home",
 ]
-
-
-# MIDDLEWARE = [
-#     "django.middleware.security.SecurityMiddleware",
-#     "whitenoise.middleware.WhiteNoiseMiddleware",
-#     "django.contrib.sessions.middleware.SessionMiddleware",
-#     "django.middleware.common.CommonMiddleware",
-#     "django.middleware.csrf.CsrfViewMiddleware",
-#     "django.contrib.auth.middleware.AuthenticationMiddleware",
-#     "django.contrib.messages.middleware.MessageMiddleware",
-#     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-# ]
 
 ROOT_URLCONF = "core.urls"
 
@@ -194,3 +173,22 @@ EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 # __API_GENERATOR__END
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
+API_BASE_URL = 'http://192.168.30.100:8000'
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'INFO',
+    },
+}
+
+CELERY_BROKER_URL = 'amqp://localhost'
+CELERY_RESULT_BACKEND = 'cache+memory://'
+CELERY_IMPORTS = ('core.celery',)

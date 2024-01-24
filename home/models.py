@@ -27,5 +27,15 @@ class UserProfile(models.Model):
         verbose_name        = _("UserProfile")
         verbose_name_plural = _("UserProfile")
 
+class ModelResult(models.Model):
+    model_name = models.CharField(max_length=255)
+    question = models.TextField()
+    answer = models.TextField()
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Model: {self.model_name}, Question: {self.question}, Answer: {self.answer}, Timestamp: {self.timestamp}"
+
 #__MODELS__
 #__MODELS__END
+
