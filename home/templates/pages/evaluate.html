@@ -1,0 +1,86 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% load custom_filters %}
+
+{% block content %}
+    <div class="container-fluid py-4">
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Evaluate Models</h2>
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label>Questions:</label>
+                        <textarea name="questions" class="form-control" rows="5" placeholder="Enter your questions here...">{{ questions }}</textarea>
+                    </div>
+                    <div class="form-group mt-3">
+                        <label>Prompt:</label>
+                        <textarea name="prompt" class="form-control" rows="2" placeholder="Enter prompt here...">{{ prompt }}</textarea>
+                    </div>
+                    <div class="form-group mt-3">
+                        <label>Models:</label>
+                        <select name="models" multiple class="form-select" size="25" style="width: 33%;">
+                            {% for model in models %}
+                                <option value="{{ model }}" {% if model in models_selected %}selected{% endif %}>{{ model }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-3">Submit</button>
+                </form>
+                {% if results %}
+                
+                    <h4 class="mt-5">Results:</h4>
+                    <style>
+                        table {
+                            border-collapse: collapse;
+                        }
+                
+                        th, td {
+                            border: 1px solid black;
+                            padding: 15px;
+                            font-size: 0.8em; /* Adjust this value to change the font size */
+                        }
+                        table, th, td {
+                            border: none;
+                        }
+                        th, td {
+                            border-bottom: 1px solid black;
+                            border-right: 1px solid black;
+                        }
+                        th:last-child, td:last-child {
+                            border-right: none;
+                          }
+                        tr:last-child td {
+                            border-bottom: none;
+                          }
+                    </style>
+                    <div>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <thead>
+                                        <tr>
+                                            <th scope="col"></th> <!-- Empty cell for the top-left corner -->
+                                            {% for model in models_selected %}
+                                                <th scope="col">{{ model }}</th>
+                                            {% endfor %}
+                                        </tr>
+                                    </thead>
+                                    
+                            <tbody>
+                                {% for question, answers in results.items %}
+                                <tr>
+                                    <td>{{ question }}</td>
+                                    {% for model in models_selected %}
+                                        <td>{{ answers|get_item:model|safe }}</td>
+                                    {% endfor %}
+                                </tr>
+                            {% endfor %}                            
+                            </tbody>
+                        </table>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock content %}

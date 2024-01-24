@@ -1,0 +1,117 @@
+<!-- history.html -->
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% load custom_filters %}
+{% block extrastyle %}
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap5.min.css">
+{% endblock %}
+
+{% block content %}
+    <div class="container-fluid py-4">
+        <div class="row">
+            <div class="col-md-12">
+                <h2>History</h2>
+                <form method="POST">
+                    {% csrf_token %}
+                    <select name="question[]" multiple>
+                        {% for question in questions %}
+                            <option value="{{ question.id }}" {% if question.id in selected_question_ids %}selected{% endif %}>{{ question.question|truncatechars:50 }}</option>
+                        {% endfor %}
+                    </select>
+                    <button type="submit" class="btn btn-primary mt-3">Submit</button>
+                </form>
+                                                
+                {% if results %}
+                    <h4 class="mt-5">Results:</h4>
+                    <style>
+                        table {
+                            border-collapse: collapse;
+                        }
+                
+                        th, td {
+                            border: 1px solid black;
+                            padding: 15px;
+                            font-size: 0.8em; /* Adjust this value to change the font size */
+                        }
+                        table, th, td {
+                            border: none;
+                        }
+                        th, td {
+                            border-bottom: 1px solid black;
+                            border-right: 1px solid black;
+                        }
+                        th:last-child, td:last-child {
+                            border-right: none;
+                          }
+                        tr:last-child td {
+                            border-bottom: none;
+                          }
+                    </style>                    
+                    <div>
+                        <table id="resultsTable">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Timestamp</th>
+                                    <th scope="col">Question</th>
+                                    <th scope="col">Model</th>
+                                    <th scope="col">Answer</th>
+                                    <th scope="col">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for result in results %}
+                                <tr>
+                                    <td>{{ result.timestamp|date:"Y-m-d H:i:s" }}</td>
+                                    <td>{{ result.question }}</td>
+                                    <td>{{ result.model_name }}</td>
+                                    <td>
+                                    <!-- Trigger the modal with a button -->
+                                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#myModal{{ forloop.counter }}">Answer</button>
+
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="myModal{{ forloop.counter }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Answer</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>{{ result.answer|safe }}</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        </div>
+                                        </div>
+                                    </div>
+                                    </div>
+                                    </td>
+                                    <td>
+                                        <form method="POST">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="delete" value="{{ result.id }}">
+                                            <button type="submit" class="btn btn-danger">Delete</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+{% block extrascript %}
+<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap5.min.js"></script>
+<script>
+$(document).ready(function() {
+    $('#resultsTable').DataTable({
+        "order": [[ 0, "desc" ]] // Change 'desc' to 'asc' for ascending order
+    });
+});
+</script>
+{% endblock %}
