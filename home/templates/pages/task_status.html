@@ -1,0 +1,37 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% block content %}
+    <div class="container-fluid py-4">
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Task Status</h2>
+                <div class="progress" id="progress"> <!-- Add class 'progress' here -->
+                    <div id="progress-bar" class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+                <p id="status"></p>
+                <a href="{% url 'results' %}" class="btn btn-primary mt-3">Check the results</a> <!-- Add Bootstrap button classes -->
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block extrascripts %}
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script>
+        function poll() {
+            $.ajax({
+                url: "{% url 'task_status' task_id=task_id %}",
+                success: function(data) {
+                    $("#progress-bar").css("width", data.current / data.total * 100 + "%");
+                    $("#status").text(data.status);
+                    if (data.state == 'PENDING' || data.state == 'PROGRESS') {
+                        setTimeout(poll, 2000);
+                    }
+                },
+                dataType: "json"
+            });
+        }
+        $(document).ready(function() {
+            poll();
+        });
+    </script>
+{% endblock %}

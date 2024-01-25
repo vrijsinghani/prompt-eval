@@ -185,10 +185,12 @@ LOGGING = {
     },
     'root': {
         'handlers': ['console'],
-        'level': 'INFO',
+        'level': 'DEBUG',
     },
 }
-
+SECURE_CROSS_ORIGIN_OPENER_POLICY = 'none'
 CELERY_BROKER_URL = 'amqp://localhost'
-CELERY_RESULT_BACKEND = 'cache+memory://'
+CELERY_RESULT_BACKEND = 'rpc://'
 CELERY_IMPORTS = ('core.celery',)
+
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
